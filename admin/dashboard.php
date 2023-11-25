@@ -12,9 +12,7 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
-
 include("add_category.php"); 
-
 ?>
 
 <!DOCTYPE html>
@@ -51,6 +49,10 @@ include("add_category.php");
             background-color: #fff;
             border-radius: 5px;
         }
+        .category-image{
+            width: 100px;
+            height: auto;
+        }
 
         table {
             width: 100%;
@@ -58,21 +60,22 @@ include("add_category.php");
             margin-top: 20px;
         }
 
-        table,
         th,
         td {
             border: 1px solid #ddd;
-        }
-
-        th,
-        td {
-            padding: 15px;
-            text-align: left;
+            padding: 10px;
+            text-align: center;
         }
 
         th {
             background-color: #555;
             color: #fff;
+        }
+
+        .category-card img {
+            max-width: 50px; /* Adjust the max-width as needed */
+            max-height: 50px; /* Adjust the max-height as needed */
+            border-radius: 5px;
         }
 
         form {
@@ -109,6 +112,18 @@ include("add_category.php");
     <section id="categories">
         <h2>Manage Categories</h2>
 
+        <!-- Form to Add Category -->
+        <form method="post" action="" enctype="multipart/form-data">
+            <h3>Add Category</h3>
+            <!-- Other category fields -->
+            <label for="categoryName">Category Name:</label>
+            <input type="text" id="categoryName" name="categoryName" required>
+            <!-- Image upload -->
+            <label for="categoryImage">Category Image:</label>
+            <input type="file" id="categoryImage" name="categoryImage" accept="image/*" required>
+            <button type="submit" name="addCategory">Add Category</button>
+        </form>
+
         <!-- Display Categories -->
         <table>
             <tr>
@@ -117,45 +132,42 @@ include("add_category.php");
                 <th>Image</th>
                 <th>Action</th>
             </tr>
+
             <!-- PHP code to fetch and display categories goes here -->
-            <!-- Example: -->
-            <!--
-            <tr>
-                <td>1</td>
-                <td>Category Name</td>
-                <td>[Category Image]</td>
-                <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-            -->
+            <?php
+            // Fetch all categories from the database ordered by ID
+            $result = $mysqli->query("SELECT * FROM categorie ORDER BY id ASC");
+
+            // Check if there are any categories
+            if ($result->num_rows > 0) {
+                // Categories found, loop through each category
+                while ($category = $result->fetch_assoc()) {
+                    echo '<tr>';
+                    echo '<td>' . $category['id'] . '</td>';
+                    echo '<td>' . $category['ctg_name'] . '</td>';
+                    echo '<td>';
+                    echo '<img src="' . $category['ctg_img_path'] . '" alt="Category Image" class="category-image">';
+                    echo '</td>';
+                    echo '<td>';
+                    echo '<div class="button-container">';
+                    echo '<button class="bnt1">Edit</button>';
+                    echo '<button class="bnt2">Delete</button>';
+                    echo '</div>';
+                    
+                    echo '</td>';
+                    echo '</tr>';
+                }
+            } else {
+                // No categories found
+                echo '<tr><td colspan="4">No categories found</td></tr>';
+            }
+            ?>
         </table>
-
-        <!-- Form to Add Category -->
-        <!-- Add Category Form -->
-        <form method="post" action="" enctype="multipart/form-data">
-            <h3>Add Category</h3>
-
-            <!-- Other category fields -->
-            <label for="categoryName">Category Name:</label>
-            <input type="text" id="categoryName" name="categoryName" required>
-
-            <!-- Image upload -->
-            <label for="categoryImage">Category Image:</label>
-            <input type="file" id="categoryImage" name="categoryImage" accept="image/*" required>
-
-            <button type="submit" name="addCategory">Add Category</button>
-        </form>
-
-
     </section>
 
     <!-- Section for Managing Products -->
     <section id="products">
         <h2>Manage Products</h2>
-
-        <!-- Display Products -->
         <table>
             <tr>
                 <th>ID</th>
@@ -167,21 +179,6 @@ include("add_category.php");
                 <th>Action</th>
             </tr>
             <!-- PHP code to fetch and display products goes here -->
-            <!-- Example: -->
-            <!--
-            <tr>
-                <td>1</td>
-                <td>Product Name</td>
-                <td>Product Description</td>
-                <td>50</td>
-                <td>[Product Image]</td>
-                <td>Category Name</td>
-                <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-            -->
         </table>
 
         <!-- Form to Add Product -->
@@ -190,25 +187,19 @@ include("add_category.php");
             <!-- PHP code to handle product addition goes here -->
             <label for="productName">Product Name:</label>
             <input type="text" id="productName" name="productName" required>
-
             <label for="productDescription">Product Description:</label>
             <textarea id="productDescription" name="productDescription" required></textarea>
-
             <label for="productPrice">Product Price:</label>
             <input type="number" id="productPrice" name="productPrice" required>
-
             <label for="productImage">Product Image:</label>
             <input type="file" id="productImage" name="productImage">
-
             <label for="productCategory">Product Category:</label>
             <!-- PHP code to fetch and populate categories in a dropdown goes here -->
             <select id="productCategory" name="productCategory" required>
                 <!-- Options will be dynamically populated -->
             </select>
-
             <button type="submit">Add Product</button>
         </form>
-
     </section>
 
 </body>
