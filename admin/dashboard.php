@@ -90,6 +90,12 @@ include("add_category.php");
             border-radius: 5px;
             cursor: pointer;
         }
+        .button-container{
+            display: flex;
+            justify-content: space-around;
+
+
+        }
 
         button:hover {
             background-color: #45a049;
@@ -113,7 +119,7 @@ include("add_category.php");
         <h2>Manage Categories</h2>
 
         <!-- Form to Add Category -->
-        <form method="post" action="" enctype="multipart/form-data">
+        <form method="post" action="ctg_action.php" enctype="multipart/form-data">
             <h3>Add Category</h3>
             <!-- Other category fields -->
             <label for="categoryName">Category Name:</label>
@@ -149,17 +155,17 @@ include("add_category.php");
                     echo '<img src="' . $category['ctg_img_path'] . '" alt="Category Image" class="category-image">';
                     echo '</td>';
                     echo '<td>';
+                    echo '<form method="post" action="ctg_action.php">';
+                    echo '<input type="hidden" name="deleteCategory" value="1">';
+                    echo '<input type="hidden" name="categoryId" value="' . $category['id'] . '">';
                     echo '<div class="button-container">';
                     echo '<button class="bnt1">Edit</button>';
-                    echo '<button class="bnt2">Delete</button>';
+                    echo '<button type="submit" class="btn-delete">Delete</button>';
                     echo '</div>';
-                    
+                    echo '</form>';
                     echo '</td>';
                     echo '</tr>';
                 }
-            } else {
-                // No categories found
-                echo '<tr><td colspan="4">No categories found</td></tr>';
             }
             ?>
         </table>
@@ -201,6 +207,47 @@ include("add_category.php");
             <button type="submit">Add Product</button>
         </form>
     </section>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all elements with class 'btn-delete'
+        var deleteButtons = document.querySelectorAll('.btn-delete');
+
+        // Loop through each 'Delete' button and attach a click event listener
+        deleteButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                // Get the category ID from the 'data-category-id' attribute
+                var categoryId = button.getAttribute('data-category-id');
+
+                // Confirm before deletion (you can customize this)
+                if (confirm('Are you sure you want to delete this category?')) {
+                    // Create a form dynamically
+                    var form = document.createElement('form');
+                    form.method = 'post';
+                    form.action = 'ctg_action.php';
+
+                    // Create an input field to hold the category ID
+                    var input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'categoryId';
+                    input.value = categoryId;
+
+                    // Append the input field to the form
+                    form.appendChild(input);
+
+                    // Append the form to the document
+                    document.body.appendChild(form);
+
+                    // Submit the form
+                    form.submit();
+                }
+            });
+        });
+    });
+</script>
+
+
+
 
 </body>
 
