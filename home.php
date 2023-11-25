@@ -15,6 +15,7 @@
         header {
             background-color: #333;
             color: #fff;
+            /* background-image: url('admin/uploads/category_images/class.png'); */
             text-align: center;
             padding: 1em;
         }
@@ -52,18 +53,52 @@
 
     <header>
         <h1>Welcome to the Home Page</h1>
+        
     </header>
+
+
 
     <main>
 
-        <!-- Replace this section with PHP code to fetch and display categories dynamically -->
-        <!-- Example category card -->
-        <div class="category-card">
-            <img src="uploads/category_images/class.png" alt="Category Image">
-            <h3>Category Name</h3>
-        </div>
+        <?php
+        // Include your database connection code here
 
-        <!-- Repeat this block for each category -->
+        $host = "localhost";
+        $dbname = "test1";
+        $username = "root";
+        $password = "";
+
+        // Create a connection
+        $mysqli = new mysqli($host, $username, $password, $dbname);
+
+        // Check the connection
+        if ($mysqli->connect_error) {
+            die("Connection failed: " . $mysqli->connect_error);
+        }
+
+
+
+        // Fetch all categories from the database
+        $result = $mysqli->query("SELECT * FROM categorie");
+
+        // Check if there are any categories
+        if ($result->num_rows > 0) {
+            // Loop through each row (category) in the result set
+            while ($category = $result->fetch_assoc()) {
+                // Output HTML for each category card
+                echo '<div class="category-card">';
+                echo '<img src="admin/' . $category['ctg_img_path'] . '" alt="Category Image">';
+                echo '<h3>' . $category['ctg_name'] . '</h3>';
+                echo '</div>';
+            }
+        } else {
+            // No categories found
+            echo '<p>No categories found.</p>';
+        }
+
+        // Close the database connection
+        $mysqli->close();
+        ?>
 
     </main>
 
