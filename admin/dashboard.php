@@ -160,11 +160,10 @@ include("add_category.php");
                     echo '</td>';
                     echo '<td>';
                     echo '<form method="post" action="ctg_action.php">';
-                    echo '<input type="hidden" name="deleteCategory" value="1">';
                     echo '<input type="hidden" name="categoryId" value="' . $category['id'] . '">';
                     echo '<div class="button-container">';
                     echo '<button class="bnt1">Edit</button>';
-                    echo '<button type="submit" class="btn-delete">Delete</button>';
+                    echo '<button type="submit" name="deleteCategory" class="btn-delete">Delete</button>';
                     echo '</div>';
                     echo '</form>';
                     echo '</td>';
@@ -225,29 +224,7 @@ include("add_category.php");
                 button.addEventListener('click', function() {
                     // Get the category ID from the 'data-category-id' attribute
                     var categoryId = button.getAttribute('data-category-id');
-
-                    // Confirm before deletion (you can customize this)
-                    if (confirm('Are you sure you want to delete this category?')) {
-                        // Create a form dynamically
-                        var form = document.createElement('form');
-                        form.method = 'post';
-                        form.action = 'ctg_action.php';
-
-                        // Create an input field to hold the category ID
-                        var input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = 'categoryId';
-                        input.value = categoryId;
-
-                        // Append the input field to the form
-                        form.appendChild(input);
-
-                        // Append the form to the document
-                        document.body.appendChild(form);
-
-                        // Submit the form
-                        form.submit();
-                    }
+                    
                 });
             });
         });
