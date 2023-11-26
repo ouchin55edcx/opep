@@ -12,7 +12,7 @@ if ($mysqli->connect_error) {
     die("Connection failed: " . $mysqli->connect_error);
 }
 
-include("add_category.php"); 
+include("add_category.php");
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +49,8 @@ include("add_category.php");
             background-color: #fff;
             border-radius: 5px;
         }
-        .category-image{
+
+        .category-image {
             width: 100px;
             height: auto;
         }
@@ -73,8 +74,10 @@ include("add_category.php");
         }
 
         .category-card img {
-            max-width: 50px; /* Adjust the max-width as needed */
-            max-height: 50px; /* Adjust the max-height as needed */
+            max-width: 50px;
+            /* Adjust the max-width as needed */
+            max-height: 50px;
+            /* Adjust the max-height as needed */
             border-radius: 5px;
         }
 
@@ -90,7 +93,8 @@ include("add_category.php");
             border-radius: 5px;
             cursor: pointer;
         }
-        .button-container{
+
+        .button-container {
             display: flex;
             justify-content: space-around;
 
@@ -155,11 +159,14 @@ include("add_category.php");
                     echo '<img src="' . $category['ctg_img_path'] . '" alt="Category Image" class="category-image">';
                     echo '</td>';
                     echo '<td>';
+                    echo '<form method="post" action="ctg_action.php">';
+                    echo '<input type="hidden" name="deleteCategory" value="1">';
+                    echo '<input type="hidden" name="categoryId" value="' . $category['id'] . '">';
                     echo '<div class="button-container">';
                     echo '<button class="bnt1">Edit</button>';
-                    echo '<button class="bnt2">Delete</button>';
+                    echo '<button type="submit" class="btn-delete">Delete</button>';
                     echo '</div>';
-                    
+                    echo '</form>';
                     echo '</td>';
                     echo '</tr>';
                 }
@@ -207,6 +214,51 @@ include("add_category.php");
             <button type="submit">Add Product</button>
         </form>
     </section>
+
+    <!-- ... (previous HTML and PHP code) ... -->
+
+    <!-- Inside the <head> section or at the end of the <body> section -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all elements with class 'btn-delete'
+            var deleteButtons = document.querySelectorAll('.btn-delete');
+
+            // Loop through each 'Delete' button and attach a click event listener
+            deleteButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Get the category ID from the 'data-category-id' attribute
+                    var categoryId = button.getAttribute('data-category-id');
+
+                    // Confirm before deletion (you can customize this)
+                    if (confirm('Are you sure you want to delete this category?')) {
+                        // Create a form dynamically
+                        var form = document.createElement('form');
+                        form.method = 'post';
+                        form.action = 'ctg_action.php';
+
+                        // Create an input field to hold the category ID
+                        var input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'categoryId';
+                        input.value = categoryId;
+
+                        // Append the input field to the form
+                        form.appendChild(input);
+
+                        // Append the form to the document
+                        document.body.appendChild(form);
+
+                        // Submit the form
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+
 
 </body>
 
