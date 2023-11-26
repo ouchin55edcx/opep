@@ -134,7 +134,6 @@ include("add_category.php");
             <button type="submit" name="addCategory">Add Category</button>
         </form>
 
-        <!-- Display Categories -->
         <table>
             <tr>
                 <th>ID</th>
@@ -162,7 +161,6 @@ include("add_category.php");
                     echo '<form method="post" action="ctg_action.php">';
                     echo '<input type="hidden" name="categoryId" value="' . $category['id'] . '">';
                     echo '<div class="button-container">';
-                    echo '<button class="bnt1">Edit</button>';
                     echo '<button type="submit" name="deleteCategory" class="btn-delete">Delete</button>';
                     echo '</div>';
                     echo '</form>';
@@ -175,6 +173,29 @@ include("add_category.php");
             }
             ?>
         </table>
+
+        <!-- Edit Category Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <h3>Edit Category</h3>
+
+                <form method="post" action="edit_category.php" enctype="multipart/form-data">
+                    
+                    <label for="adminCategoryId">Enter Category ID:</label>
+                    <input type="number" id="adminCategoryId" name="adminCategoryId" required>
+
+                    <label for="editCategoryName">Category Name:</label>
+                    <input type="text" id="editCategoryName" name="categoryName" required>
+
+                    <label for="editCategoryImage">Category Image:</label>
+                    <input type="file" id="editCategoryImage" name="categoryImage" >
+
+                    <button type="submit" name="editCategory">Save</button>
+                </form>
+            </div>
+        </div>
+
+
     </section>
 
     <!-- Section for Managing Products -->
@@ -224,7 +245,7 @@ include("add_category.php");
                 button.addEventListener('click', function() {
                     // Get the category ID from the 'data-category-id' attribute
                     var categoryId = button.getAttribute('data-category-id');
-                    
+
                 });
             });
         });
@@ -233,6 +254,6 @@ include("add_category.php");
 
 </html>
 
-</body>
+</body> 
 
 </html>

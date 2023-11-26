@@ -38,4 +38,11 @@ include './tmp/head.php'
     <input type='submit' value='Submit'>
 </form>
 
+<script>
+    function clickInInput(input){
+    inputHTML = document.getElementById(input)
+    inputHTML.click()
+}
+</script>
+
 <?php include './tmp/footer.php'?>
