@@ -215,9 +215,6 @@ include("add_category.php");
         </form>
     </section>
 
-    <!-- ... (previous HTML and PHP code) ... -->
-
-    <!-- Inside the <head> section or at the end of the <body> section -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Get all elements with class 'btn-delete'
@@ -258,7 +255,6 @@ include("add_category.php");
 </body>
 
 </html>
-
 
 </body>
 
