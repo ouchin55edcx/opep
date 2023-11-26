@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Products</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,7 +26,7 @@
             padding: 20px;
         }
 
-        .category-card {
+        .product-card {
             width: 300px;
             margin: 20px;
             padding: 15px;
@@ -36,14 +36,24 @@
             text-align: center;
         }
 
-        .category-card img {
+        .product-card img {
             max-width: 100%;
             border-radius: 5px;
             margin-bottom: 10px;
         }
 
-        .category-card h3 {
+        .product-card h3 {
             margin: 0;
+            color: #333;
+        }
+
+        .product-card p {
+            margin: 10px 0;
+            color: #777;
+        }
+
+        .product-card span {
+            font-weight: bold;
             color: #333;
         }
     </style>
@@ -51,7 +61,7 @@
 <body>
 
     <header>
-        <h1>Welcome to the Home Page</h1>
+        <h1>Products</h1>
     </header>
 
     <main>
@@ -67,19 +77,24 @@
             die("Connection failed: " . $mysqli->connect_error);
         }
 
-        $result = $mysqli->query("SELECT * FROM categorie");
+        if (isset($_GET['category_id'])) {
+            $categoryId = $_GET['category_id'];
+            $result = $mysqli->query("SELECT * FROM plante WHERE categorieID = $categoryId");
 
-        if ($result->num_rows > 0) {
-            while ($category = $result->fetch_assoc()) {
-                echo '<div class="category-card">';
-                echo '<a href="products.php?category_id=' . $category['id'] . '">';
-                echo '<img src="admin/' . $category['ctg_img_path'] . '" alt="Category Image">';
-                echo '<h3>' . $category['ctg_name'] . '</h3>';
-                echo '</a>';
-                echo '</div>';
+            if ($result->num_rows > 0) {
+                while ($product = $result->fetch_assoc()) {
+                    echo '<div class="product-card">';
+                    echo '<img src="admin/' . $product['image'] . '" alt="Product Image">';
+                    echo '<h3>' . $product['plt_name'] . '</h3>';
+                    echo '<p>' . $product['description'] . '</p>';
+                    echo '<p><span>Price:</span> $' . $product['prix'] . '</p>';
+                    echo '</div>';
+                }
+            } else {
+                echo '<p>No products found in this category.</p>';
             }
         } else {
-            echo '<p>No categories found.</p>';
+            echo '<p>Invalid category ID.</p>';
         }
 
         $mysqli->close();

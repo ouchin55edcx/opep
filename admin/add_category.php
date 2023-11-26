@@ -22,8 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["addCategory"])) {
     $uploadFile = $uploadDir . basename($_FILES["categoryImage"]["name"]);
 
     if (move_uploaded_file($_FILES["categoryImage"]["tmp_name"], $uploadFile)) {
-        // Image uploaded successfully
-        // Insert data into the database
+
         $imagePath = $uploadFile; // Store the file path in the database
 
         // Insert into the database

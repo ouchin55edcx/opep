@@ -180,15 +180,15 @@ include("add_category.php");
                 <h3>Edit Category</h3>
 
                 <form method="post" action="edit_category.php" enctype="multipart/form-data">
-                    
+
                     <label for="adminCategoryId">Enter Category ID:</label>
                     <input type="number" id="adminCategoryId" name="adminCategoryId" required>
 
                     <label for="editCategoryName">Category Name:</label>
-                    <input type="text" id="editCategoryName" name="categoryName" required>
+                    <input type="text" id="editCategoryName" name="categoryName">
 
                     <label for="editCategoryImage">Category Image:</label>
-                    <input type="file" id="editCategoryImage" name="categoryImage" >
+                    <input type="file" id="editCategoryImage" name="categoryImage">
 
                     <button type="submit" name="editCategory">Save</button>
                 </form>
@@ -197,6 +197,55 @@ include("add_category.php");
 
 
     </section>
+
+    <?php
+    // ... (existing code)
+
+    // Section for Managing Products
+    echo '<section id="products">';
+    echo '<h2>Manage Products</h2>';
+    echo '<table>';
+    echo '<tr>';
+    echo '<th>ID</th>';
+    echo '<th>Name</th>';
+    echo '<th>Description</th>';
+    echo '<th>Price</th>';
+    echo '<th>Image</th>';
+    echo '<th>Category</th>';
+    echo '<th>Action</th>';
+    echo '</tr>';
+
+    // Fetch and display products
+    $result = $mysqli->query("SELECT * FROM plante");
+
+    if ($result->num_rows > 0) {
+        while ($product = $result->fetch_assoc()) {
+            echo '<tr>';
+            echo '<td>' . $product['id'] . '</td>';
+            echo '<td>' . $product['plt_name'] . '</td>';
+            echo '<td>' . $product['description'] . '</td>';
+            echo '<td>' . $product['prix'] . '</td>';
+            echo '<td>';
+            echo '<img src="' . $product['image'] . '" alt="Product Image" class="category-image">';
+            echo '</td>';
+            echo '<td>' . $product['categorieID'] . '</td>';
+            echo '<td>';
+            echo '<form method="post" action="edit_product.php">';
+            echo '<input type="hidden" name="productId" value="' . $product['id'] . '">';
+            echo '<button type="submit" name="editProduct">Edit</button>';
+            echo '</form>';
+            echo '<form method="post" action="delete_product.php">';
+            echo '<input type="hidden" name="productId" value="' . $product['id'] . '">';
+            echo '<button type="submit" name="deleteProduct">Delete</button>';
+            echo '</form>';
+            echo '</td>';
+            echo '</tr>';
+        }
+    } else {
+        echo '<tr><td colspan="7">No products found</td></tr>';
+    }
+
+    ?>
 
     <!-- Section for Managing Products -->
     <section id="products">
@@ -215,45 +264,90 @@ include("add_category.php");
         </table>
 
         <!-- Form to Add Product -->
-        <form>
+        <form method="post" action="add_product.php" enctype="multipart/form-data">
             <h3>Add Product</h3>
-            <!-- PHP code to handle product addition goes here -->
+            <!-- Other product fields -->
             <label for="productName">Product Name:</label>
             <input type="text" id="productName" name="productName" required>
             <label for="productDescription">Product Description:</label>
             <textarea id="productDescription" name="productDescription" required></textarea>
             <label for="productPrice">Product Price:</label>
             <input type="number" id="productPrice" name="productPrice" required>
+
+            <!-- Image upload for the product -->
             <label for="productImage">Product Image:</label>
-            <input type="file" id="productImage" name="productImage">
+            <input type="file" id="productImage" name="productImage" required>
+
+            <!-- Dropdown for product category -->
             <label for="productCategory">Product Category:</label>
-            <!-- PHP code to fetch and populate categories in a dropdown goes here -->
             <select id="productCategory" name="productCategory" required>
-                <!-- Options will be dynamically populated -->
+                <?php
+                // Fetch all categories from the database ordered by ID
+                $result = $mysqli->query("SELECT * FROM categorie ORDER BY id ASC");
+
+                // Check if there are any categories
+                if ($result->num_rows > 0) {
+                    // Categories found, loop through each category
+                    while ($category = $result->fetch_assoc()) {
+                        echo '<option value="' . $category['id'] . '">' . $category['ctg_name'] . '</option>';
+                    }
+                } else {
+                    // No categories found
+                    echo '<option value="" disabled>No categories found</option>';
+                }
+                ?>
             </select>
-            <button type="submit">Add Product</button>
+
+            <button type="submit" name="addProduct">Add Product</button>
         </form>
+
     </section>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <h3>Edit Product</h3>
+            <form method="post" action="edit_product.php" enctype="multipart/form-data">
+                <label for="editProductName">Product Name:</label>
+                <input type="text" id="editProductName" name="editProductName" required>
+                <label for="editProductDescription">Product Description:</label>
+                <textarea id="editProductDescription" name="editProductDescription" required></textarea>
+                <label for="editProductPrice">Product Price:</label>
+                <input type="number" id="editProductPrice" name="editProductPrice" required>
+                <label for="editProductImage">Product Image:</label>
+                <input type="file" id="editProductImage" name="editProductImage">
+                <label for="editProductCategory">Product Category:</label>
+                <select id="editProductCategory" name="editProductCategory" required>
+                    <!-- Fetch and display categories here -->
+                </select>
+                <button type="submit" name="saveProductChanges">Save Changes</button>
+            </form>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // ... (existing code)
+
             // Get all elements with class 'btn-delete'
             var deleteButtons = document.querySelectorAll('.btn-delete');
 
             // Loop through each 'Delete' button and attach a click event listener
             deleteButtons.forEach(function(button) {
                 button.addEventListener('click', function() {
-                    // Get the category ID from the 'data-category-id' attribute
-                    var categoryId = button.getAttribute('data-category-id');
+                    // Get the product ID from the 'data-product-id' attribute
+                    var productId = button.getAttribute('data-product-id');
 
+                    // You can implement the deletion logic here, e.g., using AJAX
                 });
             });
         });
     </script>
+
 </body>
 
 </html>
 
-</body> 
+</body>
 
 </html>
