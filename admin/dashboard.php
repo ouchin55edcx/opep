@@ -249,17 +249,6 @@ include("add_category.php");
 
     <!-- Section for Managing Products -->
     <section id="products">
-        <h2>Manage Products</h2>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Image</th>
-                <th>Category</th>
-                <th>Action</th>
-            </tr>
             <!-- PHP code to fetch and display products goes here -->
         </table>
 
