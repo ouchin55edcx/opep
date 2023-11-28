@@ -249,7 +249,7 @@ include("add_category.php");
 
     <!-- Section for Managing Products -->
     <section id="products">
-            <!-- PHP code to fetch and display products goes here -->
+        <!-- PHP code to fetch and display products goes here -->
         </table>
 
         <!-- Form to Add Product -->
@@ -293,45 +293,47 @@ include("add_category.php");
     </section>
 
     <!-- Edit Product Modal -->
-    <div id="editProductModal" class="modal">
-        <div class="modal-content">
-            <h3>Edit Product</h3>
-            <form method="post" action="edit_product.php" enctype="multipart/form-data">
-                <label for="editProductName">Product Name:</label>
-                <input type="text" id="editProductName" name="editProductName" required>
-                <label for="editProductDescription">Product Description:</label>
-                <textarea id="editProductDescription" name="editProductDescription" required></textarea>
-                <label for="editProductPrice">Product Price:</label>
-                <input type="number" id="editProductPrice" name="editProductPrice" required>
-                <label for="editProductImage">Product Image:</label>
-                <input type="file" id="editProductImage" name="editProductImage">
-                <label for="editProductCategory">Product Category:</label>
-                <select id="editProductCategory" name="editProductCategory" required>
-                    <!-- Fetch and display categories here -->
-                </select>
-                <button type="submit" name="saveProductChanges">Save Changes</button>
-            </form>
-        </div>
-    </div>
+<!-- Edit Product Modal -->
+<form method="post" action="edit_product.php" enctype="multipart/form-data">
+    <h3>EDIT Product</h3>
+    <!-- Other product fields -->
+    <label for="editProductID">Product ID:</label>
+    <input type="number" id="editProductID" name="editProductID" required>
+    <label for="editProductName">Product Name:</label>
+    <input type="text" id="editProductName" name="editProductName">
+    <label for="editProductDescription">Product Description:</label>
+    <textarea id="editProductDescription" name="editProductDescription"></textarea>
+    <label for="editProductPrice">Product Price:</label>
+    <input type="number" id="editProductPrice" name="editProductPrice">
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // ... (existing code)
+    <!-- Image upload for the product -->
+    <label for="editProductImage">Product Image:</label>
+    <input type="file" id="editProductImage" name="editProductImage">
 
-            // Get all elements with class 'btn-delete'
-            var deleteButtons = document.querySelectorAll('.btn-delete');
+    <!-- Dropdown for product category -->
+    <label for="editProductCategory">Product Category:</label>
+    <select id="editProductCategory" name="editProductCategory">
+        <?php
+        // Fetch all categories from the database ordered by ID
+        $result = $mysqli->query("SELECT * FROM categorie ORDER BY id ASC");
 
-            // Loop through each 'Delete' button and attach a click event listener
-            deleteButtons.forEach(function(button) {
-                button.addEventListener('click', function() {
-                    // Get the product ID from the 'data-product-id' attribute
-                    var productId = button.getAttribute('data-product-id');
+        // Check if there are any categories
+        if ($result->num_rows > 0) {
+            // Categories found, loop through each category
+            while ($category = $result->fetch_assoc()) {
+                echo '<option value="' . $category['id'] . '">' . $category['ctg_name'] . '</option>';
+            }
+        } else {
+            // No categories found
+            echo '<option value="" disabled>No categories found</option>';
+        }
+        ?>
+    </select>
 
-                    // You can implement the deletion logic here, e.g., using AJAX
-                });
-            });
-        });
-    </script>
+    <button type="submit" name="editProduct">Edit Product</button>
+</form>
+
+
 
 </body>
 
