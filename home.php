@@ -66,6 +66,7 @@
         if ($mysqli->connect_error) {
             die("Connection failed: " . $mysqli->connect_error);
         }
+        session_start();
 
         $result = $mysqli->query("SELECT * FROM categorie");
 

@@ -1,7 +1,7 @@
 <?php
 include './connect.php';
 if (session_status() == PHP_SESSION_NONE) {
-  session_start(); // Start the session if it's not already started
+  session_start(); 
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -19,19 +19,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($user != '' && password_verify($password, $user['password'])) {
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
+        $_SESSION['userId'] = $user['id'];
 
         $Role = $user['role_id'];
         $_SESSION['role_id'] = $Role;
 
         if ($Role == 1) {
             header('Location: admin/dashboard.php');
-            exit(); // Make sure to exit after header redirect
+            exit(); 
         } else {
             header('Location: ./home.php');
-            exit(); // Make sure to exit after header redirect
+            exit(); 
         }
     } else {
-        // Display an alert message for invalid credentials
         echo '<script>alert("Invalid email or password. Please try again.");</script>';
     }
 }

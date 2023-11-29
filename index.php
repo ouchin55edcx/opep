@@ -59,10 +59,4 @@ include './tmp/head.php'
   </div>
 </section>
 
-
-
-
-
-
-
 <?php include './tmp/footer.php' ?>
