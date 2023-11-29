@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 29 nov. 2023 à 11:57
+-- Généré le : mer. 29 nov. 2023 à 17:54
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -27,29 +27,12 @@ SET time_zone = "+00:00";
 -- Structure de la table `cart`
 --
 
-
 CREATE TABLE `cart` (
   `id` int(11) NOT NULL,
   `product_id` int(11) DEFAULT NULL,
-  `quantity` int(11) DEFAULT 1
+  `quantity` int(11) DEFAULT 1,
+  `userId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `cart`
---
-
-INSERT INTO `cart` (`id`, `product_id`, `quantity`) VALUES
-(1, 33, 1),
-(2, 34, 1),
-(3, 34, 1),
-(4, 33, 1),
-(5, 33, 1),
-(6, 33, 1),
-(7, 34, 1),
-(8, 33, 1),
-(9, 34, 1),
-(10, 34, 1),
-(11, 34, 1);
 
 -- --------------------------------------------------------
 
@@ -63,12 +46,18 @@ CREATE TABLE `categorie` (
   `ctg_img_path` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Déchargement des données de la table `categorie`
+-- Structure de la table `comments`
 --
 
-INSERT INTO `categorie` (`id`, `ctg_name`, `ctg_img_path`) VALUES
-(97, 'etst', 'uploads/category_images/Capture d\'écran 2023-10-11 200605.png');
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL,
+  `cart_id` int(11) DEFAULT NULL,
+  `comment_text` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -84,14 +73,6 @@ CREATE TABLE `plante` (
   `image` varchar(255) DEFAULT NULL,
   `categorieID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Déchargement des données de la table `plante`
---
-
-INSERT INTO `plante` (`id`, `plt_name`, `description`, `prix`, `image`, `categorieID`) VALUES
-(33, 'DSSD', 'cds', 120, 'uploads/category_images/Capture d\'écran 2023-10-11 231412.png', 97),
-(34, 'gqfgs', 'sfgbgf', 120, 'uploads/category_images/Capture d\'écran 2023-10-11 200605.png', 97);
 
 -- --------------------------------------------------------
 
@@ -154,7 +135,10 @@ INSERT INTO `users` (`id`, `email`, `password`, `firstName`, `lastName`, `role_i
 (35, 'EZQ@EQRFS', '$2y$10$/GE4LNtKtyGKG504bEk2A.DpToAVzaQd094NOCLxG0FZqKvCrf8/y', 'zedz', 'ezcz', 2),
 (36, 'amin@amin.com', '$2y$10$MLPI55cyORZWhjwKIRdtFOJ0Sm6f2yYvlqEgk9uvjrsw17FVsUtLW', 'amin', 'amin', 1),
 (37, 'dfgvdwxf@fgb', '$2y$10$BSDQE/x9fH//PXVN5/sz5uqrILMKraCnxRw8UCGPMDDE/yv5ACrQC', 'qfsw', 'gdvdwf', 1),
-(38, 'yassinehanach@gmail.com', '$2y$10$ZuXzAnqCC0fhxBgVcf6o5.bsfLvw4SYcN4DW1AiPdFzW0aJJwlwXm', 'yassine', 'hanach', 1);
+(38, 'yassinehanach@gmail.com', '$2y$10$ZuXzAnqCC0fhxBgVcf6o5.bsfLvw4SYcN4DW1AiPdFzW0aJJwlwXm', 'yassine', 'hanach', 1),
+(39, 'a@gmail.com', '$2y$10$xn7lAp2s3ld4LfvES6VAV.jWlEIRiBHDGIzjnZtC/3nIGKq0JySbO', 'test', 'test', 2),
+(40, 'test1@gamil.com', '$2y$10$IAkP9hF9af0fM0gr7SX5Tu/YRpSy78V3l2CQAKMloT27gSoClMB8O', 'test', 'test1@gamil.com', 2),
+(41, 'bsfgsfg@gmail.com', '$2y$10$T.bmKWYZtPCzmWaxMAR3UuIgui3ZtHR6Qv4oQdEqnEspsA5ttppaO', 'fdd', 'dfbd', 2);
 
 --
 -- Index pour les tables déchargées
@@ -165,13 +149,21 @@ INSERT INTO `users` (`id`, `email`, `password`, `firstName`, `lastName`, `role_i
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `fk_userId` (`userId`);
 
 --
 -- Index pour la table `categorie`
 --
 ALTER TABLE `categorie`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `cart_id` (`cart_id`);
 
 --
 -- Index pour la table `plante`
@@ -202,19 +194,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT pour la table `categorie`
 --
 ALTER TABLE `categorie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+
+--
+-- AUTO_INCREMENT pour la table `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `plante`
 --
 ALTER TABLE `plante`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT pour la table `roles`
@@ -226,7 +224,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- Contraintes pour les tables déchargées
@@ -236,7 +234,14 @@ ALTER TABLE `users`
 -- Contraintes pour la table `cart`
 --
 ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `plante` (`id`);
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `plante` (`id`),
+  ADD CONSTRAINT `fk_userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`);
 
 --
 -- Contraintes pour la table `plante`

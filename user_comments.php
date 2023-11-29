@@ -57,6 +57,8 @@ if (isset($_SESSION['userId'])) {
             echo '<p class="text-gray-600">User ID: ' . $user['id'] . '</p>';
             echo '<p class="text-gray-600">Name: ' . $user['firstName'] . '</p>';
             echo '<p class="text-gray-600">Email: ' . $user['email'] . '</p>';
+            echo '<a href="checkout.php?id='.$user['id'].'" class="bg-yellow-500 text-white px-4 py-2 rounded" type="submit" name="removeFromCart">checkOutt</a>';
+
         } else {
             echo '<p class="text-red-500">No user found for ID ' . $userId . '</p>';
         }
@@ -64,7 +66,7 @@ if (isset($_SESSION['userId'])) {
         $userStmt->close();
 
         // Fetch products in the user's cart
-        $cartQuery = "SELECT product_id,userId,plt_name,description,prix,image, plante.id AS planteId,cart.id AS cartId FROM cart JOIN plante ON cart.product_id = plante.id WHERE userId = ?";
+        $cartQuery = "SELECT product_id,userId,plt_name,description,quantity,prix,image, plante.id AS planteId,cart.id AS cartId FROM cart JOIN plante ON cart.product_id = plante.id WHERE userId = ?";
         $cartStmt = $mysqli->prepare($cartQuery);
 
         if ($cartStmt) {
