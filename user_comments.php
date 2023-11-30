@@ -1,4 +1,5 @@
 <?php
+include 'header.php';
 session_start();
 
 // Assuming the user ID is passed to this page as a parameter, for example, user_comments.php?userId=39
@@ -31,27 +32,8 @@ if (isset($_SESSION['userId'])) {
         if ($userResult->num_rows > 0) {
             $user = $userResult->fetch_assoc();
 
-            // Header
-            echo '
-            <!DOCTYPE html>
-            <html lang="en">
 
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>User Cart</title>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-            </head>
-
-            <body class="bg-gray-100">
-                <header class="bg-blue-500 text-white p-4">
-                    <div class="container mx-auto">
-                        <h1 class="text-2xl font-semibold">User Cart</h1>
-                        <p class="text-sm">Welcome, ' . $user['firstName'] . ' | <a href="logout.php" class="underline">Logout</a></p>
-                    </div>
-                </header>
-                <div class="container mx-auto mt-8">
-            ';
+            echo'<p class="text-sm">Welcome, ' . $user['firstName'];
 
             echo '<h2 class="text-3xl font-semibold mb-4">User Information</h2>';
             echo '<p class="text-gray-600">User ID: ' . $user['id'] . '</p>';
@@ -77,8 +59,10 @@ if (isset($_SESSION['userId'])) {
 
             if ($cartResult->num_rows > 0) {
                 echo '<h2 class="text-3xl font-semibold mb-4">Products in Cart</h2>';
+                echo '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">';
+                
                 while ($row = $cartResult->fetch_assoc()) {
-                    echo '<div class="max-w-sm rounded overflow-hidden shadow-lg bg-white m-4">';
+                    echo '<div class="max-w-sm rounded overflow-hidden shadow-lg bg-white">';
                     echo '<img class="w-full h-48 object-cover" src="admin/' . $row['image'] . '" alt="Product Image">';
                     echo '<div class="px-6 py-4">';
                     echo '<p class="text-gray-700">Product ID: ' . $row['product_id'] . '</p>';
@@ -88,7 +72,8 @@ if (isset($_SESSION['userId'])) {
                     echo '</div>';
                     echo '<div class="px-6 py-4">';
                     echo '<form method="post" action="removeFromCart.php">';
-                    echo '<a href="removeFromCart.php?id='.$row['cartId'].'" class="bg-red-500 text-white px-4 py-2 rounded" type="submit" name="removeFromCart">Remove from Cart</a>';
+                    echo '<button class="bg-red-500 text-white px-4 py-2 rounded" type="submit" name="removeFromCart">Remove from Cart</button>';
+                    echo '<input type="hidden" name="cartId" value="' . $row['cartId'] . '">';
                     echo '</form>';
                     echo '</div>';
                     echo '</div>';

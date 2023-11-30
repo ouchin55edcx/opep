@@ -14,7 +14,7 @@ session_start();
     }
 
      $id = $_GET['id'];
- 
+
     // Check if the item belongs to the logged-in user
     $sql="DELETE FROM cart WHERE id = $id";
     $mysqli->query($sql);
