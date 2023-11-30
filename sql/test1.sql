@@ -112,19 +112,4 @@ ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 
-ALTER TABLE `cart`
-  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `plante` (`id`),
-  ADD CONSTRAINT `fk_userId` FOREIGN KEY (`userId`) REFERENCES `users` (`id`);
 
-
-ALTER TABLE `comments`
-  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`);
-
-
-ALTER TABLE `plante`
-  ADD CONSTRAINT `plante_ibfk_1` FOREIGN KEY (`categorieID`) REFERENCES `categorie` (`id`);
-
-
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
-COMMIT;
