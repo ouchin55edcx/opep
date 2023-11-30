@@ -13,7 +13,7 @@ session_start();
         die("Connection failed: " . $mysqli->connect_error);
     }
 
-     $id = $_GET['id'];
+     $id = $_POST['cartId'];
 
     // Check if the item belongs to the logged-in user
     $sql="DELETE FROM cart WHERE id = $id";
