@@ -142,9 +142,7 @@ include("add_category.php");
                 <th>Action</th>
             </tr>
 
-            <!-- PHP code to fetch and display categories goes here -->
             <?php
-            // Fetch all categories from the database ordered by ID
             $result = $mysqli->query("SELECT * FROM categorie ORDER BY id ASC");
 
             // Check if there are any categories
