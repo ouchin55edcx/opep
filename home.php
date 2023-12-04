@@ -25,10 +25,12 @@ $result = $mysqli->query("SELECT * FROM categorie");
 
 if ($result->num_rows > 0) {
     while ($category = $result->fetch_assoc()) {
-        echo '<div class="max-w-xs rounded overflow-hidden shadow-lg m-4 bg-white">';
-        echo '<a href="products.php?category_id=' . $category['id'] . '">';
-        echo '<img class="w-full h-48 object-cover" src="admin/' . $category['ctg_img_path'] . '" alt="Category Image">';
-        echo '<h3 class="text-lg text-gray-800">' . $category['ctg_name'] . '</h3>';
+        echo '<div class="max-w-md rounded overflow-hidden shadow-lg m-4 bg-white hover:shadow-xl transition duration-300 ease-in-out transform hover:-translate-y-2">';
+        echo '<a href="products.php?category_id=' . $category['id'] . '" class="block h-full">';
+        echo '<img class="w-full h-64 object-cover" src="admin/' . $category['ctg_img_path'] . '" alt="Category Image">';
+        echo '<div class="p-6">';
+        echo '<h3 class="text-xl text-gray-800 font-semibold mb-2">' . $category['ctg_name'] . '</h3>';
+        echo '</div>';
         echo '</a>';
         echo '</div>';
     }

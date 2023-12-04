@@ -199,7 +199,6 @@ include("add_category.php");
     </section>
 
     <?php
-    // ... (existing code)
 
     // Section for Managing Products
     echo '<section id="products">';
