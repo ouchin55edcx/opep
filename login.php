@@ -1,8 +1,7 @@
 <?php
 include './connect.php';
-if (session_status() == PHP_SESSION_NONE) {
-  session_start(); 
-}
+
+session_start();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
@@ -11,25 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $sql = "SELECT * FROM users WHERE email = '$email'";
     $query = mysqli_query($conn, $sql);
 
-    if (!$query) {
-        die("Error: " . mysqli_error($conn));
-    }
-
-    $user = mysqli_fetch_assoc($query);
-    if ($user != '' && password_verify($password, $user['password'])) {
+    if ($user = mysqli_fetch_assoc($query) && password_verify($password, $user['password'])) {
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
         $_SESSION['userId'] = $user['id'];
-        $Role = $user['role_id'];
-        $_SESSION['role_id'] = $Role;
+        $_SESSION['role_id'] = $user['role_id'];
 
-        if ($Role == 1) {
-            header('Location: admin/dashboard.php');
-            exit(); 
-        } else {
-            header('Location: ./home.php');
-            exit(); 
-        }
+        $redirect = ($user['role_id'] == 1) ? 'admin/dashboard.php' : './home.php';
+
+        header("Location: $redirect");
+        exit();
     } else {
         echo '<script>alert("Invalid email or password. Please try again.");</script>';
     }
@@ -38,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $title = 'Login Page';
 include './tmp/head.php';
 ?>
+
 <section class="bg-green-200 h-screen flex items-center justify-center">
   <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
     <div class="text-center">
