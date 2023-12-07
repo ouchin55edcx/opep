@@ -1,0 +1,36 @@
+body{
+    background-image: url("../image/bg.png");
+    background-size: cover;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    
+
+}
+#btn{
+
+    border-radius: 25px;
+}
+
+span{
+    text-decoration: underline;
+    color: rgb(187, 100, 0)
+}
+
+#btn1{
+    background-image: url("../image/client.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#btn2{
+    background-image: url("../image/admin.png");
+    background-size: cover;
+    background-position: center;
+}
+
+
