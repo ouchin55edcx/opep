@@ -7,17 +7,20 @@ include("header.php");
 <h1 class="font-bold text-6xl text-center">Our Product</h1>
     
 <?php
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    //searsh
+    $search = $_POST['search'];
+    $query = "SELECT * FROM products  WHERE product_name LIKE '%$search%'";
+    $result = mysqli_query($con, $query); 
 
-$result = mysqli_query($con, "SELECT * FROM products");
+} else{
+    $result = mysqli_query($con, "SELECT * FROM products");
+}
 
-if($result->num_rows>0){
-  $rows = $result->fetch_all(MYSQLI_ASSOC);  
-} 
 ?>
  
  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
     <?php
-    $result = mysqli_query($con, "SELECT * FROM products");
     while ($row = mysqli_fetch_array($result)) {
         echo "
         <center>
@@ -43,3 +46,9 @@ if($result->num_rows>0){
    }
     ?>
 </div>
+
+
+
+
+
+
