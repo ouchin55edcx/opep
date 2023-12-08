@@ -24,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $_SESSION["roleID"] = $userData["roleID"];
             
             if ($_SESSION["roleID"] == 1) {
-                header("location: ../admin/dash.php");
+                header("location:../admin/index.php");
             }else{
                 $_SESSION['userID']=$userData['userID'];
                 header("location:../client/home.php");

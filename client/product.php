@@ -4,7 +4,17 @@ include("../admin/connect.php");
 include("header.php");
 ?>
 
-<h1 class="font-bold text-6xl text-center">Our Product</h1>
+<section>
+
+    <div class="bg-cover bg-center h-full" style="background-image: url('imagepexels-ameruverse-digital-marketing-media-1477166.jpg');">
+        <div class="bg-black bg-opacity-50 text-white text-center py-10">
+            <h2 class="text-4xl font-bold mb-4">Discover Our Stunning Plants</h2>
+            <p class="text-lg">Explore a variety of beautiful and unique plants to enhance your space.</p>
+        </div>
+    </div>
+
+</section>
+
     
 <?php
 if($_SERVER['REQUEST_METHOD'] == 'POST'){

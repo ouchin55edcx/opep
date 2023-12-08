@@ -9,4 +9,4 @@
   <link rel="shortcut icon" href="./imageabout-img.png" type="image/x-icon">
 </head>
 
-  <body class="mix-h-screen bg-[#1d283c]">
+  <body class="mix-h-screen bg-[#799983]">
