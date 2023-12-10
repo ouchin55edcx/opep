@@ -23,8 +23,7 @@ if (isset($_GET["id"])) {
     $category_ID = intval($_POST['category_id']);
     $image_location = $_FILES['image']['tmp_name'];
     $image_name = $_FILES['image']['name'];
-    $image_up = "../client/image" . $image_name;
-
+    $image_up = "../client/images" . $image_name;
 
     if (move_uploaded_file($image_location, $image_up)) {
 
